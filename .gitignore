@@ -8,6 +8,10 @@
 *.so
 *.dylib
 
+# quest binary
+qst
+quest
+
 # Test binary, built with `go test -c`
 *.test
 
