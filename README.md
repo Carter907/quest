@@ -15,13 +15,14 @@ quest is a command-line tool for storing and structuring knowledge. You use guid
 
 - `clarity` - how detailed the guide is overall.
 - `scope` - how much content is covered in a guide; how many concepts or things were explained.
-  Scope is valued as qualitative rather than quantitative:
+  Scope is qualitative:
   - Definition - smallest scope (singular term)
   - Description - smaller scope using more examples and comparisons than a definition.
   - Explanation - medium guide with multiple descriptions (average case)
   - Lesson - multiple explanations (largest content type)
 - `prerequisites` - a list of required guides. This property establishes the edges in the knowledge graph. 
-
-**Tags**:
 - `subject` - a topic descriptor applied to a guide.
 
+**Tags**:
+
+Tags are used directly but are still compatible with the format.
