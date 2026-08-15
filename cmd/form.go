@@ -2,29 +2,53 @@ package cmd
 
 import (
 	"fmt"
+	"os"
+	"path/filepath"
 
+	"github.com/Carter907/quest/internal/graph"
 	"github.com/spf13/cobra"
 )
 
 var formCmd = &cobra.Command{
-	Use:   "form",
+	Use:   "form [directory]",
 	Short: "zip a knowledge graph directory into the .kng archive file format",
-	Long:  ``,
+	Long:  `Validates the formatting constraints of the knowledge graph and packages it losslessly.`,
+	Args:  cobra.MaximumNArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("form called")
+		dir := "."
+		if len(args) > 0 {
+			dir = args[0]
+		}
+
+		guides, err := graph.ParseGraph(dir)
+		if err != nil {
+			fmt.Printf("Error parsing graph: %v\n", err)
+			os.Exit(1)
+		}
+
+		if err := graph.ValidateGraph(guides); err != nil {
+			fmt.Printf("Validation failed:\n%v\n", err)
+			os.Exit(1)
+		}
+
+		absDir, err := filepath.Abs(dir)
+		if err != nil {
+			fmt.Printf("Error resolving path: %v\n", err)
+			os.Exit(1)
+		}
+
+		baseName := filepath.Base(absDir)
+		outPath := baseName + ".kng"
+
+		if err := graph.ArchiveGraph(dir, outPath); err != nil {
+			fmt.Printf("Error archiving graph: %v\n", err)
+			os.Exit(1)
+		}
+
+		fmt.Printf("Successfully packaged %d guides into %s\n", len(guides), outPath)
 	},
 }
 
 func init() {
 	rootCmd.AddCommand(formCmd)
-
-	// Here you will define your flags and configuration settings.
-
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// buildCmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// buildCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }
