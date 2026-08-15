@@ -26,7 +26,8 @@ var formCmd = &cobra.Command{
 			os.Exit(1)
 		}
 
-		if err := graph.ValidateGraph(guides); err != nil {
+		err = graph.ValidateGraph(guides)
+		if err != nil {
 			fmt.Printf("Validation failed:\n%v\n", err)
 			os.Exit(1)
 		}
@@ -40,7 +41,8 @@ var formCmd = &cobra.Command{
 		baseName := filepath.Base(absDir)
 		outPath := baseName + ".kng"
 
-		if err := graph.ArchiveGraph(dir, outPath); err != nil {
+		err = graph.ArchiveGraph(dir, outPath)
+		if err != nil {
 			fmt.Printf("Error archiving graph: %v\n", err)
 			os.Exit(1)
 		}
