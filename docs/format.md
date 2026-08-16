@@ -1,6 +1,6 @@
 # File Format
 
-The zip archive contains markdown files (`.md`) denoted as "Guides". These guides have a particular format that makes them ideal for housing and structuring knowledge in a Directed Acyclic Graph (DAG).
+Knowledge graphs are archived into `.kng` files which are zip archives containing markdown files (`.md`) denoted as "Guides". These guides have a particular format that makes them ideal for housing and structuring knowledge in a Directed Acyclic Graph (DAG).
 
 ## Guide Metadata
 
