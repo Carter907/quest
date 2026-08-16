@@ -31,11 +31,8 @@ jobs:
       - name: Docs
         run: go run ./internal/tools/docgen -out ./docs/cli -format markdown
 
-      - name: Commit documentation changes
-        uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          commit_message: "docs: auto-update cobra cli documentation"
-          file_pattern: "docs/cli/*.md"
+      - name: Check for stale documentation
+        run: git diff --exit-code docs/cli/ || (echo "Documentation is stale. Please run 'go run ./internal/tools/docgen -out ./docs/cli -format markdown' or use pre-commit to generate docs." && exit 1)
 
       - name: Test
         run: go test -v ./...

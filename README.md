@@ -1,4 +1,4 @@
-# quest
+# quest-cli
 
 Quest is a command-line tool for storing and structuring knowledge. You use guides (markdown files) to explain and describe a certain topic or idea. This tool helps you structure and format them into a single file (a knowledge graph) with the file format .kng
 
