@@ -16,9 +16,15 @@ Being able to structure information using a standard format is important because
 By offloading validation of content to a concrete system, you can focus on comprehending and building upon the content.
 
 
-## Getting Started
+## Installation & Getting Started
 
-**Building the binary**:
+**Install via `go install`**:
+
+```sh
+go install github.com/Carter907/quest-cli@latest
+```
+
+**Or build from source**:
 
 ```sh
 go build -o qst

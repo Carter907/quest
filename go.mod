@@ -1,4 +1,4 @@
-module github.com/Carter907/quest
+module github.com/Carter907/quest-cli
 
 go 1.26.5
 

@@ -11,6 +11,8 @@
 # quest binary
 qst
 quest
+quest-cli
+bin/
 
 # Test binary, built with `go test -c`
 *.test
