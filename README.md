@@ -1,8 +1,8 @@
 # quest-cli
 
-Quest is a command-line tool for storing and structuring knowledge. You use guides (markdown files) to explain and describe a certain topic or idea. This tool helps you structure and format them into a single file (a knowledge graph) with the file format .kng
+Quest is a command-line tool for storing and structuring knowledge. You use guides (markdown files) to explain and describe a certain topic or idea. This tool helps you structure and format them into a single file format.
 
-.kng files can then be distributed and unpacked through quest and opened in Obsidian or some other application for viewing and editing.
+These files can be distributed and unpacked in markdown editors like Obsidian. Integration with this tool in your workflow is made easy through is simple yet comprehensive command-line interface.
 
 
 ## Why Quest?
@@ -11,29 +11,23 @@ Quest facilitates the distribution and management of knowledge.
 
 You can use the file format on education platforms for curriculum building and learning path creation (walks on the graph).
 
-Being able to structure information using a standard format is important because otherwise uncertainty is more likely to hamper your ability to learn. Quest enforces this standard format using `qst form`, which validates and packs guides into knowledge graph files.
+Being able to structure information using a standard format is important. Quest helps decrease uncertainty in the learning process by proposing and helping to enforce a structural standard for markdown content. Quest enforces this standard format using `qst form`, which validates and packs guides into knowledge graph files.
 
-By offloading validation of content to a concrete system, you can focus on comprehending and building upon the content.
+By offloading validation of content to a concrete system, you can focus on comprehending and building upon learning material.
 
 
 ## Installation & Getting Started
 
-**Install via `go install`**:
+**Build from source and install locally**:
 
 ```sh
-go install github.com/Carter907/quest-cli@latest
-```
-
-**Or build from source**:
-
-```sh
-go build -o qst
+go build -o $(go env GOPATH)/bin/qst .
 ```
 
 **Running `qst`**:
 
 ```sh
-./qst
+qst --help
 ```
 
 ## Concepts
