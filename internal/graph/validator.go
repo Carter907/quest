@@ -4,6 +4,54 @@ import (
 	"fmt"
 )
 
+// CheckAcyclic checks if the knowledge graph is acyclic using DFS
+func CheckAcyclic(guides map[string]Guide) error {
+	const (
+		unvisited = 0
+		visiting  = 1
+		visited   = 2
+	)
+
+	state := make(map[string]int, len(guides))
+
+	var dfs func(id string) error
+	dfs = func(id string) error {
+		state[id] = visiting
+
+		if guide, exists := guides[id]; exists {
+			neighbors := append([]string(nil), guide.Metadata.Prerequisites...)
+			neighbors = append(neighbors, guide.Metadata.SubGuides...)
+
+			for _, neighborID := range neighbors {
+				if _, exists := guides[neighborID]; !exists {
+					continue
+				}
+				if state[neighborID] == visiting {
+					return fmt.Errorf("cycle detected in graph involving guide '%s'", neighborID)
+				}
+				if state[neighborID] == unvisited {
+					if err := dfs(neighborID); err != nil {
+						return err
+					}
+				}
+			}
+		}
+
+		state[id] = visited
+		return nil
+	}
+
+	for id := range guides {
+		if state[id] == unvisited {
+			if err := dfs(id); err != nil {
+				return err
+			}
+		}
+	}
+
+	return nil
+}
+
 // ValidateGraph checks structural constraints of the knowledge graph
 func ValidateGraph(guides map[string]Guide) error {
 	for _, guide := range guides {
@@ -44,5 +92,5 @@ func ValidateGraph(guides map[string]Guide) error {
 			}
 		}
 	}
-	return nil
+	return CheckAcyclic(guides)
 }
