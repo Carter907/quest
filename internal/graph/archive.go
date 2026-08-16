@@ -50,3 +50,44 @@ func ArchiveGraph(dirPath string, outputPath string) error {
 
 	return nil
 }
+
+// UnarchiveGraph unpacks all the markdown guides from a .kng zip archive.
+func UnarchiveGraph(inputPath string, destDir string) error {
+	r, err := zip.OpenReader(inputPath)
+	if err != nil {
+		return err
+	}
+	defer r.Close()
+
+	for _, f := range r.File {
+
+		if f.FileInfo().IsDir() || filepath.Ext(f.Name) != ".md" {
+			continue
+		}
+
+		rc, err := f.Open()
+		if err != nil {
+			return err
+		}
+
+		outPath := filepath.Join(destDir, f.Name)
+
+		dst, err := os.Create(outPath)
+		if err != nil {
+			rc.Close()
+			return err
+		}
+
+		if _, err := io.Copy(dst, rc); err != nil {
+			dst.Close()
+			rc.Close()
+			return err
+		}
+
+		dst.Close()
+		rc.Close()
+
+	}
+
+	return nil
+}
