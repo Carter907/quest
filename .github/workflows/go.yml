@@ -31,5 +31,11 @@ jobs:
       - name: Docs
         run: go run ./internal/tools/docgen -out ./docs/cli -format markdown
 
+      - name: Commit documentation changes
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "docs: auto-update cobra cli documentation"
+          file_pattern: "docs/cli/*.md"
+
       - name: Test
         run: go test -v ./...

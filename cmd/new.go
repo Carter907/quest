@@ -12,19 +12,12 @@ import (
 var newCmd = &cobra.Command{
 	Use:   "new",
 	Short: "create a new knowledge graph directory",
-	Long: `You start a new knowledge graph with the new command. You only have to specify the name of the knowledge graph;
-	a directory will be created. A starter guide will be added in the directory as a template.
+	Long:  "You start a new knowledge graph with the new command. You only have to specify the name of the knowledge graph; a directory will be created. A starter guide will be added in the directory as a template. If you don't specify a directory, the current directory will be used.",
+	Example: `# Specify New Directory
+qst new learn-cpp
 
-	If you don't specify a directory, the current directory will be used.
-
-	Examples:
-
-		qst new learn-cpp
-
-	if you don't specify a directory, the current one will be used:
-
-		qst new
-	`,
+# Use Current Directory
+qst new`,
 	Run: func(cmd *cobra.Command, args []string) {
 		dir := "."
 		if len(args) != 0 {

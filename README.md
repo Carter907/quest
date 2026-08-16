@@ -4,18 +4,16 @@ Quest is a command-line tool for storing and structuring knowledge. You use guid
 
 .kng files can then be distributed and unpacked through quest and opened in Obsidian or some other application for viewing and editing.
 
-- read [concepts.md](/docs/concepts.md) for more theoretical foundations.
-- read [format.md](/docs/format.md) to understand the .kng file format and guide metadata
 
-# Why Quest?
+## Why Quest?
 
 Quest facilitates the distribution and management of knowledge.
 
 You can use the file format on education platforms for curriculum building and learning path creation (walks on the graph).
 
-Being able to structure information using a standard format is important because uncertainty tends to get in the way of comprehension when learning something new.
+Being able to structure information using a standard format is important because otherwise uncertainty is more likely to hamper your ability to learn. Quest enforces this standard format using `qst form`, which validates and packs guides into knowledge graph files.
 
-You can check that that format has been followed, allowing you to be more confident about what you're reading. This standardization of knowledge allows you to focus on perfecting the content itself within defined constraints.
+By offloading validation of content to a concrete system, you can focus on comprehending and building upon the content.
 
 
 ## Getting Started
@@ -31,3 +29,15 @@ go build -o qst
 ```sh
 ./qst
 ```
+
+## Concepts
+
+Check out [concepts.md](/docs/concepts.md) for more theoretical foundations.
+
+## Format
+
+Find formatting constraints and metadata specifics in [format.md](/docs/format.md)
+
+## CLI Docs
+
+Visit [the cli docs](/docs/cli/) for comprehensive breakdown of the current `qst` functionality

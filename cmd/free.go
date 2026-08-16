@@ -14,13 +14,9 @@ import (
 var freeCmd = &cobra.Command{
 	Use:   "free",
 	Short: "Unzip a .kng file so you can read or edit the knowledge graph",
-	Long: `Free is how you start learning new knowledge. .kng files get unzipped through free and 
-	becomes accessible to the user.
-	Examples:
-		qst free my-graph.kng
-	
-	Unzipped archives are placed in a directory with the same name as the file. All markdown guides are losslessly decompressed.
-	`,
+	Long:  "Free is how you start learning new knowledge. Unzipped archives are placed in a directory with the same name as the file. All markdown guides are losslessly decompressed.",
+	Example: `# Free the Knowledge
+qst free my-graph.kng`,
 	Run: func(cmd *cobra.Command, args []string) {
 		if len(args) == 0 {
 			fmt.Println("Please specify a .kng file to unpack")
@@ -36,7 +32,7 @@ var freeCmd = &cobra.Command{
 		filename := filepath.Base(inputKng)
 		destDir := strings.TrimSuffix(filename, ext)
 
-		err := os.MkdirAll(destDir, 0755)
+		err := os.MkdirAll(destDir, 0o755)
 		if err != nil {
 			fmt.Printf("Error creating directory: %v\n", err)
 			os.Exit(1)

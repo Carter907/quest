@@ -13,7 +13,12 @@ var formCmd = &cobra.Command{
 	Use:   "form [directory]",
 	Short: "zip a knowledge graph directory into the .kng archive file format",
 	Long:  `Validates the formatting constraints of the knowledge graph and packages it losslessly.`,
-	Args:  cobra.MaximumNArgs(1),
+	Example: `# From a directory
+qst form my_knowledge
+
+# From Current Directory
+qst form`,
+	Args: cobra.MaximumNArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
 		dir := "."
 		if len(args) > 0 {
