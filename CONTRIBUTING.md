@@ -25,3 +25,8 @@ Here is a list of additional commit types that can be used in this repository:
 - refactor - reimplementation of an already established feature. The behavior should largely be unaffected.
 
 > message scopes are optional.
+
+
+## Code Conventions
+
+Comments should generally be capitalized, short, informative messages. Keep comments to a minimum if possible.

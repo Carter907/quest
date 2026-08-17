@@ -40,4 +40,4 @@ Find formatting constraints and metadata specifics in [format.md](/docs/format.m
 
 ## CLI Docs
 
-Visit [the cli docs](/docs/cli/) for comprehensive breakdown of the current `qst` functionality
+Visit [the cli docs](/docs/cli/) for generated docs on the command-line interface (`qst` functionality).
