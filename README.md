@@ -1,6 +1,6 @@
 # quest-cli
 
-Quest is a command-line tool for storing and structuring knowledge. You use guides (markdown files) to explain and describe a certain topic or idea. This tool helps you structure and format them into a single file format.
+Quest is a command-line tool for storing and structuring knowledge. You use markdown files to explain a certain idea or practice. These files are related to each other through a directed acyclic graph. This tool helps you manipulate, verify, and package this structured material into a single file format.
 
 These files can be distributed and unpacked in markdown editors like Obsidian. Integration with this tool in your workflow is made easy through is simple yet comprehensive command-line interface.
 
