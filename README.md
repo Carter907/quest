@@ -18,9 +18,17 @@ By offloading validation of content to a concrete system, you can focus on compr
 
 ## Installation & Getting Started
 
-**Build from source and install locally**:
+**Using `go install`**
 
 ```sh
+go install github.com/Carter907/quest-cli@latest
+```
+
+**Install locally using `go build`**:
+
+```sh
+git clone https://github.com/Carter907/quest-cli.git
+cd quest-cli
 go build -o $(go env GOPATH)/bin/qst .
 ```
 
@@ -29,6 +37,11 @@ go build -o $(go env GOPATH)/bin/qst .
 ```sh
 qst --help
 ```
+
+
+## Usage
+
+For a basic usage example of the commend, please read [usage.md](/docs/usage.md)
 
 ## Concepts
 
