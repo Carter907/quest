@@ -10,7 +10,6 @@ import (
 	"github.com/spf13/cobra"
 )
 
-// freeCmd represents the free command
 var freeCmd = &cobra.Command{
 	Use:   "free",
 	Short: "Unzip a .kng file so you can read or edit the knowledge graph",
