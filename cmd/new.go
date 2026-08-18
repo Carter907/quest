@@ -49,11 +49,33 @@ This is an example guide. Replace this content with your own knowledge!
 				fmt.Printf("Failed to create starter guide: %v\n", err)
 				os.Exit(1)
 			}
-			fmt.Printf("Initialized empty knowledge graph in %s\n", dir)
-			fmt.Printf("Created starter guide at %s\n", starterPath)
 		} else {
-			fmt.Printf("Knowledge graph initialized in %s\n", dir)
+			fmt.Printf("Sample guide already exists, skipping write...\n")
 		}
+
+		metaFilePath := filepath.Join(dir, "quest.yaml")
+		if _, err := os.Stat(metaFilePath); os.IsNotExist(err) {
+			metaFileContent := `title: Your New Knowledge
+description: What can you say about this knowledge?
+tours:
+  - name: Tour 1
+    guides:
+      - Guide Filename 1
+      - Guide Filename 2
+  - name: Tour 2
+    guides:
+      -`
+
+			err = os.WriteFile(metaFilePath, []byte(metaFileContent), 0o644)
+			if err != nil {
+				fmt.Printf("Failed to write metafile: %v\n", err)
+				os.Exit(1)
+			}
+
+		} else {
+			fmt.Printf("Metafile already exists, skipping write...\n")
+		}
+		fmt.Printf("Initialized knowledge graph in %s\n", dir)
 	},
 }
 
