@@ -23,6 +23,7 @@ qst add Exponent --scope definition --clarity strict
 ```
       --clarity string          Clarity of the guide (e.g. strict, vague)
   -h, --help                    help for add
+  -i, --interactive             Interactive mode
       --prerequisites strings   List of prerequisites
       --scope string            Scope of the guide (e.g. definition, description)
       --subguides strings       List of subguides

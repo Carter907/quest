@@ -3,13 +3,16 @@ package cmd
 import (
 	"fmt"
 	"os"
+	"strings"
 
+	"charm.land/huh/v2"
 	"github.com/Carter907/quest-cli/internal/graph"
 	"github.com/spf13/cobra"
 	yaml "gopkg.in/yaml.v3"
 )
 
 var (
+	interactive      bool
 	addPrerequisites []string
 	addSubGuides     []string
 	addScope         string
@@ -33,6 +36,94 @@ qst add Exponent --scope definition --clarity strict`,
 			fmt.Printf("Error: %s already exists\n", filename)
 			os.Exit(1)
 		}
+		if interactive {
+			prereqString := ""
+			subguideString := ""
+			tagsString := ""
+			var fields []huh.Field
+
+			if !cmd.Flags().Changed("scope") {
+				fields = append(fields, huh.NewSelect[string]().
+					Title("Choose your Scope").
+					Options(
+						huh.NewOption("Definition", "definition"),
+						huh.NewOption("Description", "description"),
+						huh.NewOption("Explanation", "explanation"),
+						huh.NewOption("Lesson", "lesson"),
+					).
+					Value(&addScope))
+			}
+
+			if !cmd.Flags().Changed("clarity") {
+				fields = append(fields, huh.NewSelect[string]().
+					Title("Choose a clarity").
+					Options(
+						huh.NewOption("Vague", "vague"),
+						huh.NewOption("Introductory", "introductory"),
+						huh.NewOption("Detailed", "detailed"),
+						huh.NewOption("Strict", "strict"),
+					).
+					Value(&addClarity))
+			}
+
+			if !cmd.Flags().Changed("prerequisites") {
+				fields = append(fields, huh.NewInput().
+					Title("Enter prerequisites (separated by a comma)").
+					Placeholder("e.g. Guide 1, Guide 2, Guide 3").
+					Value(&prereqString))
+			}
+
+			if !cmd.Flags().Changed("subguides") {
+				fields = append(fields, huh.NewInput().
+					Title("Enter subguides (separated by a comma)").
+					Placeholder("e.g. Guide 1, Guide 2, Guide 3").
+					Value(&subguideString))
+			}
+
+			if !cmd.Flags().Changed("tags") {
+				fields = append(fields, huh.NewInput().
+					Title("Enter tags (comma separated)").
+					Placeholder("e.g. Math, Science, Art").
+					Value(&tagsString))
+			}
+
+			if len(fields) > 0 {
+				form := huh.NewForm(
+					huh.NewGroup(fields...),
+				)
+
+				err := form.Run()
+				if err != nil {
+					fmt.Printf("Failed to run form: %v\n", err)
+					os.Exit(1)
+				}
+			}
+
+			parseCSV := func(s string) []string {
+				s = strings.TrimSpace(s)
+				if s == "" {
+					return []string{}
+				}
+				parts := strings.Split(s, ",")
+				var res []string
+				for _, p := range parts {
+					if trimmed := strings.TrimSpace(p); trimmed != "" {
+						res = append(res, trimmed)
+					}
+				}
+				return res
+			}
+
+			if !cmd.Flags().Changed("prerequisites") {
+				addPrerequisites = parseCSV(prereqString)
+			}
+			if !cmd.Flags().Changed("subguides") {
+				addSubGuides = parseCSV(subguideString)
+			}
+			if !cmd.Flags().Changed("tags") {
+				addTags = parseCSV(tagsString)
+			}
+		}
 
 		meta := graph.GuideMetadata{
 			Prerequisites: addPrerequisites,
@@ -41,7 +132,6 @@ qst add Exponent --scope definition --clarity strict`,
 			Clarity:       graph.Clarity(addClarity),
 			Tags:          addTags,
 		}
-
 		// Ensure nil slices serialize to empty arrays [] in yaml instead of null
 		if meta.Prerequisites == nil {
 			meta.Prerequisites = []string{}
@@ -72,6 +162,7 @@ qst add Exponent --scope definition --clarity strict`,
 }
 
 func init() {
+	addCmd.Flags().BoolVarP(&interactive, "interactive", "i", false, "Interactive mode")
 	addCmd.Flags().StringSliceVar(&addPrerequisites, "prerequisites", nil, "List of prerequisites")
 	addCmd.Flags().StringSliceVar(&addSubGuides, "subguides", nil, "List of subguides")
 	addCmd.Flags().StringVar(&addScope, "scope", "", "Scope of the guide (e.g. definition, description)")
