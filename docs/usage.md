@@ -8,7 +8,34 @@
 qst new Exponents
 ```
 
-This will create a new directory called "Exponents" and populate it with a `quest.yaml` file and a **starter markdown file**.
+This will create a new directory called "Exponents" and populate it with a `manifest.yaml` file and a **starter markdown file**.
+
+The main configuration file is the manifest.yaml
+
+The `manifest.yaml` file has the following content: 
+
+```yaml
+title: Your New Knowledge
+description: What can you say about this knowledge?
+scopes:
+  - definition
+  - description
+  - explanation
+  - lesson
+clarities:
+  - strict
+  - detailed
+  - introductory
+  - vague
+tours:
+  - name: Tour 1
+    guides:
+      - Guide Filename 1
+      - Guide Filename 2
+  - name: Tour 2
+    guides:
+      -
+```
 
 ### 2. Add your first guides
 
@@ -42,7 +69,7 @@ Once you are ready to distribute your knowledge, you use the `qst form` command:
 qst form
 ```
 
-The current directory is chosen if you don't specify one. When you run this command, a `.kng` file with the same name as the chosen directory will be created. This file is a zip archive housing all markdown files and the `quest.yaml` metafile.
+The current directory is chosen if you don't specify one. When you run this command, a `.kng` file with the same name as the chosen directory will be created. This file is a zip archive housing all markdown files and the `manifest.yaml` metafile.
 
 ## Summary
 

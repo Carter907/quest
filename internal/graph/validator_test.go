@@ -5,7 +5,7 @@ import (
 )
 
 func TestValidateGraph(t *testing.T) {
-	mockConfig := QuestConfig{
+	mockConfig := Manifest{
 		Scopes:    []string{"definition", "description", "explanation", "lesson"},
 		Clarities: []string{"vague", "introductory", "detailed", "strict"},
 	}

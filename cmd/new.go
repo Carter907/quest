@@ -53,7 +53,7 @@ This is an example guide. Replace this content with your own knowledge!
 			fmt.Printf("Sample guide already exists, skipping write...\n")
 		}
 
-		metaFilePath := filepath.Join(dir, "quest.yaml")
+		metaFilePath := filepath.Join(dir, "manifest.yaml")
 		if _, err := os.Stat(metaFilePath); os.IsNotExist(err) {
 			metaFileContent := `title: Your New Knowledge
 description: What can you say about this knowledge?

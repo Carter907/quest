@@ -14,7 +14,7 @@ type Guide struct {
 	Metadata GuideMetadata
 }
 
-type QuestConfig struct {
+type Manifest struct {
 	Title       string       `yaml:"title"`
 	Description string       `yaml:"description"`
 	Scopes      []string     `yaml:"scopes"`

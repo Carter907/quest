@@ -39,7 +39,7 @@ qst add Exponent --scope definition --clarity strict`,
 		if interactive {
 			config, err := graph.ParseConfig(".")
 			if err != nil {
-				fmt.Printf("Failed to load quest.yaml config: %v\n", err)
+				fmt.Printf("Failed to load manifest.yaml config: %v\n", err)
 				os.Exit(1)
 			}
 

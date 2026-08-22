@@ -53,7 +53,7 @@ func CheckAcyclic(guides map[string]Guide) error {
 }
 
 // getScopeValue helper returns the hierarchical index of the given scope (1-indexed)
-func getScopeValue(scope string, config QuestConfig) int {
+func getScopeValue(scope string, config Manifest) int {
 	for i, s := range config.Scopes {
 		if s == scope {
 			return i + 1
@@ -62,7 +62,7 @@ func getScopeValue(scope string, config QuestConfig) int {
 	return 0
 }
 
-func isValidClarity(clarity string, config QuestConfig) bool {
+func isValidClarity(clarity string, config Manifest) bool {
 	for _, c := range config.Clarities {
 		if c == clarity {
 			return true
@@ -72,7 +72,7 @@ func isValidClarity(clarity string, config QuestConfig) bool {
 }
 
 // ValidateGraph checks structural constraints of the knowledge graph
-func ValidateGraph(guides map[string]Guide, config QuestConfig) error {
+func ValidateGraph(guides map[string]Guide, config Manifest) error {
 	for _, guide := range guides {
 		// Validate Scope
 		if getScopeValue(guide.Metadata.Scope, config) == 0 {
