@@ -57,6 +57,16 @@ This is an example guide. Replace this content with your own knowledge!
 		if _, err := os.Stat(metaFilePath); os.IsNotExist(err) {
 			metaFileContent := `title: Your New Knowledge
 description: What can you say about this knowledge?
+scopes:
+  - definition
+  - description
+  - explanation
+  - lesson
+clarities:
+  - strict
+  - detailed
+  - introductory
+  - vague
 tours:
   - name: Tour 1
     guides:

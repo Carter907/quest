@@ -83,3 +83,19 @@ func parseGuide(path string) (Guide, error) {
 		Metadata: meta,
 	}, nil
 }
+
+// ParseConfig reads the quest.yaml configuration file in the specified directory.
+func ParseConfig(dirPath string) (QuestConfig, error) {
+	configPath := filepath.Join(dirPath, "quest.yaml")
+	content, err := os.ReadFile(configPath)
+	if err != nil {
+		return QuestConfig{}, fmt.Errorf("failed to read quest.yaml: %w", err)
+	}
+
+	var config QuestConfig
+	if err := yaml.Unmarshal(content, &config); err != nil {
+		return QuestConfig{}, fmt.Errorf("failed to parse quest.yaml: %w", err)
+	}
+
+	return config, nil
+}

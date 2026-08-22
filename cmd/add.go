@@ -37,32 +37,36 @@ qst add Exponent --scope definition --clarity strict`,
 			os.Exit(1)
 		}
 		if interactive {
+			config, err := graph.ParseConfig(".")
+			if err != nil {
+				fmt.Printf("Failed to load quest.yaml config: %v\n", err)
+				os.Exit(1)
+			}
+
 			prereqString := ""
 			subguideString := ""
 			tagsString := ""
 			var fields []huh.Field
 
 			if !cmd.Flags().Changed("scope") {
+				var scopeOptions []huh.Option[string]
+				for _, s := range config.Scopes {
+					scopeOptions = append(scopeOptions, huh.NewOption(s, s))
+				}
 				fields = append(fields, huh.NewSelect[string]().
 					Title("Choose your Scope").
-					Options(
-						huh.NewOption("Definition", "definition"),
-						huh.NewOption("Description", "description"),
-						huh.NewOption("Explanation", "explanation"),
-						huh.NewOption("Lesson", "lesson"),
-					).
+					Options(scopeOptions...).
 					Value(&addScope))
 			}
 
 			if !cmd.Flags().Changed("clarity") {
+				var clarityOptions []huh.Option[string]
+				for _, c := range config.Clarities {
+					clarityOptions = append(clarityOptions, huh.NewOption(c, c))
+				}
 				fields = append(fields, huh.NewSelect[string]().
 					Title("Choose a clarity").
-					Options(
-						huh.NewOption("Vague", "vague"),
-						huh.NewOption("Introductory", "introductory"),
-						huh.NewOption("Detailed", "detailed"),
-						huh.NewOption("Strict", "strict"),
-					).
+					Options(clarityOptions...).
 					Value(&addClarity))
 			}
 
@@ -128,8 +132,8 @@ qst add Exponent --scope definition --clarity strict`,
 		meta := graph.GuideMetadata{
 			Prerequisites: addPrerequisites,
 			SubGuides:     addSubGuides,
-			Scope:         graph.Scope(addScope),
-			Clarity:       graph.Clarity(addClarity),
+			Scope:         addScope,
+			Clarity:       addClarity,
 			Tags:          addTags,
 		}
 		// Ensure nil slices serialize to empty arrays [] in yaml instead of null

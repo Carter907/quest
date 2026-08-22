@@ -5,6 +5,10 @@ import (
 )
 
 func TestValidateGraph(t *testing.T) {
+	mockConfig := QuestConfig{
+		Scopes:    []string{"definition", "description", "explanation", "lesson"},
+		Clarities: []string{"vague", "introductory", "detailed", "strict"},
+	}
 	tests := []struct {
 		name    string
 		guides  map[string]Guide
@@ -16,8 +20,8 @@ func TestValidateGraph(t *testing.T) {
 				"guide1": {
 					ID: "guide1",
 					Metadata: GuideMetadata{
-						Scope:   ScopeDefinition,
-						Clarity: ClarityStrict,
+						Scope:   "definition",
+						Clarity: "strict",
 					},
 				},
 			},
@@ -30,7 +34,7 @@ func TestValidateGraph(t *testing.T) {
 					ID: "guide1",
 					Metadata: GuideMetadata{
 						Scope:   "invalid_scope",
-						Clarity: ClarityStrict,
+						Clarity: "strict",
 					},
 				},
 			},
@@ -42,7 +46,7 @@ func TestValidateGraph(t *testing.T) {
 				"guide1": {
 					ID: "guide1",
 					Metadata: GuideMetadata{
-						Scope:   ScopeDefinition,
+						Scope:   "definition",
 						Clarity: "invalid_clarity",
 					},
 				},
@@ -55,16 +59,16 @@ func TestValidateGraph(t *testing.T) {
 				"guide1": {
 					ID: "guide1",
 					Metadata: GuideMetadata{
-						Scope:         ScopeLesson,
-						Clarity:       ClarityDetailed,
+						Scope:         "lesson",
+						Clarity:       "detailed",
 						Prerequisites: []string{"guide2"},
 					},
 				},
 				"guide2": {
 					ID: "guide2",
 					Metadata: GuideMetadata{
-						Scope:   ScopeLesson,
-						Clarity: ClarityDetailed,
+						Scope:   "lesson",
+						Clarity: "detailed",
 					},
 				},
 			},
@@ -76,8 +80,8 @@ func TestValidateGraph(t *testing.T) {
 				"guide1": {
 					ID: "guide1",
 					Metadata: GuideMetadata{
-						Scope:         ScopeLesson,
-						Clarity:       ClarityDetailed,
+						Scope:         "lesson",
+						Clarity:       "detailed",
 						Prerequisites: []string{"unknown_guide"},
 					},
 				},
@@ -90,16 +94,16 @@ func TestValidateGraph(t *testing.T) {
 				"guide1": {
 					ID: "guide1",
 					Metadata: GuideMetadata{
-						Scope:         ScopeLesson,
-						Clarity:       ClarityDetailed,
+						Scope:         "lesson",
+						Clarity:       "detailed",
 						Prerequisites: []string{"guide2"},
 					},
 				},
 				"guide2": {
 					ID: "guide2",
 					Metadata: GuideMetadata{
-						Scope:   ScopeDefinition,
-						Clarity: ClarityDetailed,
+						Scope:   "definition",
+						Clarity: "detailed",
 					},
 				},
 			},
@@ -111,16 +115,16 @@ func TestValidateGraph(t *testing.T) {
 				"guide1": {
 					ID: "guide1",
 					Metadata: GuideMetadata{
-						Scope:     ScopeLesson,
-						Clarity:   ClarityDetailed,
+						Scope:     "lesson",
+						Clarity:   "detailed",
 						SubGuides: []string{"guide2"},
 					},
 				},
 				"guide2": {
 					ID: "guide2",
 					Metadata: GuideMetadata{
-						Scope:   ScopeExplanation,
-						Clarity: ClarityDetailed,
+						Scope:   "explanation",
+						Clarity: "detailed",
 					},
 				},
 			},
@@ -132,8 +136,8 @@ func TestValidateGraph(t *testing.T) {
 				"guide1": {
 					ID: "guide1",
 					Metadata: GuideMetadata{
-						Scope:     ScopeLesson,
-						Clarity:   ClarityDetailed,
+						Scope:     "lesson",
+						Clarity:   "detailed",
 						SubGuides: []string{"unknown_guide"},
 					},
 				},
@@ -146,16 +150,16 @@ func TestValidateGraph(t *testing.T) {
 				"guide1": {
 					ID: "guide1",
 					Metadata: GuideMetadata{
-						Scope:     ScopeExplanation,
-						Clarity:   ClarityDetailed,
+						Scope:     "explanation",
+						Clarity:   "detailed",
 						SubGuides: []string{"guide2"},
 					},
 				},
 				"guide2": {
 					ID: "guide2",
 					Metadata: GuideMetadata{
-						Scope:   ScopeLesson, // larger scope than Explanation
-						Clarity: ClarityDetailed,
+						Scope:   "lesson", // larger scope than Explanation
+						Clarity: "detailed",
 					},
 				},
 			},
@@ -167,16 +171,16 @@ func TestValidateGraph(t *testing.T) {
 				"guide1": {
 					ID: "guide1",
 					Metadata: GuideMetadata{
-						Scope:         ScopeLesson,
-						Clarity:       ClarityDetailed,
+						Scope:         "lesson",
+						Clarity:       "detailed",
 						Prerequisites: []string{"guide2"},
 					},
 				},
 				"guide2": {
 					ID: "guide2",
 					Metadata: GuideMetadata{
-						Scope:         ScopeLesson,
-						Clarity:       ClarityDetailed,
+						Scope:         "lesson",
+						Clarity:       "detailed",
 						Prerequisites: []string{"guide1"},
 					},
 				},
@@ -189,24 +193,24 @@ func TestValidateGraph(t *testing.T) {
 				"guide1": {
 					ID: "guide1",
 					Metadata: GuideMetadata{
-						Scope:         ScopeLesson,
-						Clarity:       ClarityDetailed,
+						Scope:         "lesson",
+						Clarity:       "detailed",
 						Prerequisites: []string{"guide2"},
 					},
 				},
 				"guide2": {
 					ID: "guide2",
 					Metadata: GuideMetadata{
-						Scope:         ScopeLesson,
-						Clarity:       ClarityDetailed,
+						Scope:         "lesson",
+						Clarity:       "detailed",
 						Prerequisites: []string{"guide3"},
 					},
 				},
 				"guide3": {
 					ID: "guide3",
 					Metadata: GuideMetadata{
-						Scope:         ScopeLesson,
-						Clarity:       ClarityDetailed,
+						Scope:         "lesson",
+						Clarity:       "detailed",
 						Prerequisites: []string{"guide1"},
 					},
 				},
@@ -217,7 +221,7 @@ func TestValidateGraph(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			err := ValidateGraph(tt.guides)
+			err := ValidateGraph(tt.guides, mockConfig)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("ValidateGraph() error = %v, wantErr %v", err, tt.wantErr)
 			}

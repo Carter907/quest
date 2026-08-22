@@ -31,7 +31,13 @@ qst form`,
 			os.Exit(1)
 		}
 
-		err = graph.ValidateGraph(guides)
+		config, err := graph.ParseConfig(dir)
+		if err != nil {
+			fmt.Printf("Error loading config: %v\n", err)
+			os.Exit(1)
+		}
+
+		err = graph.ValidateGraph(guides, config)
 		if err != nil {
 			fmt.Printf("Validation failed:\n%v\n", err)
 			os.Exit(1)

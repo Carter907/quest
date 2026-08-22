@@ -52,19 +52,35 @@ func CheckAcyclic(guides map[string]Guide) error {
 	return nil
 }
 
+// getScopeValue helper returns the hierarchical index of the given scope (1-indexed)
+func getScopeValue(scope string, config QuestConfig) int {
+	for i, s := range config.Scopes {
+		if s == scope {
+			return i + 1
+		}
+	}
+	return 0
+}
+
+func isValidClarity(clarity string, config QuestConfig) bool {
+	for _, c := range config.Clarities {
+		if c == clarity {
+			return true
+		}
+	}
+	return false
+}
+
 // ValidateGraph checks structural constraints of the knowledge graph
-func ValidateGraph(guides map[string]Guide) error {
+func ValidateGraph(guides map[string]Guide, config QuestConfig) error {
 	for _, guide := range guides {
 		// Validate Scope
-		if ScopeValue(guide.Metadata.Scope) == 0 {
+		if getScopeValue(guide.Metadata.Scope, config) == 0 {
 			return fmt.Errorf("guide '%s' has invalid scope: '%s'", guide.ID, guide.Metadata.Scope)
 		}
 
 		// Validate Clarity
-		switch guide.Metadata.Clarity {
-		case ClarityStrict, ClarityDetailed, ClarityIntroductory, ClarityVague:
-			// valid
-		default:
+		if !isValidClarity(guide.Metadata.Clarity, config) {
 			return fmt.Errorf("guide '%s' has invalid clarity: '%s'", guide.ID, guide.Metadata.Clarity)
 		}
 
@@ -86,7 +102,7 @@ func ValidateGraph(guides map[string]Guide) error {
 			if !exists {
 				return fmt.Errorf("guide '%s' references unknown sub_guide: '%s'", guide.ID, subID)
 			}
-			if ScopeValue(sub.Metadata.Scope) >= ScopeValue(guide.Metadata.Scope) {
+			if getScopeValue(sub.Metadata.Scope, config) >= getScopeValue(guide.Metadata.Scope, config) {
 				return fmt.Errorf("guide '%s' (scope: '%s') has sub_guide '%s' with invalid scope: '%s'. Sub-guides must have a strictly smaller scope",
 					guide.ID, guide.Metadata.Scope, subID, sub.Metadata.Scope)
 			}
